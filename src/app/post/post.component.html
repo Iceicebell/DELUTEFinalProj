@@ -1,0 +1,95 @@
+
+<div class="feeds">
+    <div class="feed">
+        <div class="head">
+            
+        </div>
+         <div class="user">
+             <div class="profile-pic">
+                 <img src="https://media.macphun.com/img/uploads/customer/how-to/579/15531840725c93b5489d84e9.43781620.jpg?q=85&w=1340" alt="">
+             </div>
+             <div class="info">
+                 <h3>{{post?.auth}}</h3>
+                 <small>{{post?.date}}</small>
+                 <div>
+                 <mat-icon (click)="deleteButton()">delete</mat-icon><mat-icon (click)="editButton()">edit</mat-icon>
+                 </div>
+             </div >
+             <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
+         </div>
+
+         <div class="photo">
+             <img src="{{post?.img}}" alt="">
+         </div>
+
+         <div class="caption">
+             <p><b></b>{{post?.description}}
+            <span class="hash-tag"> #{{post?.title}}</span></p>
+         </div>
+            <mat-icon (click)="onLike()">favorite</mat-icon><small>{{post?.like}}</small>
+             <mat-icon>bookmark</mat-icon>
+
+             <div *ngFor="let c of post?.comment"></div>
+         
+         
+        <div class="comments-container">
+            <h1>Comments</h1>
+            <form (submit)="addComment()">   
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    </div>
+                    <div  class="comments text-muted"><input type="text" class="comment" placeholder="Comment here" [(ngModel)]="newComment" name="newComment" required >
+                    <button type="submit" mat-raised-button color="primary">Comment</button></div>
+                </div>
+            </form>
+            <div *ngFor="let c of post?.comment">
+            <ul id="comments-list" class="comments-list">
+                <li>
+                    <div class="comment-main-level">
+    
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name by-author"><a >{{post?.auth}}</a></h6>
+                                <mat-icon (click)="likeComment(c)">favorite</mat-icon><small>{{c.likes || 0}}</small>
+                                <mat-icon (click)="deleteComment(c)">delete</mat-icon>
+                                <div class="comment-content">
+                                    {{c.text}}
+                                    
+                                 </div>
+                            </div>
+                           
+                            <div *ngFor="let c of post?.comment">
+                              </div>
+                              
+
+
+                              <div *ngFor="let reply of c.replies">
+                                <ul class="comments-list reply-list">
+                                    <li>
+                
+                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                
+                                        <div class="comment-box">
+                                            <div class="comment-head">
+                                                <h6 class="comment-name"><a href="#">{{post?.auth}}</a></h6>
+                                            </div>
+                                            <div class="reply-content">
+                                                {{reply}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                              </div>
+                            
+                              <form (submit)="replyToComment(c, replyText.value)">
+                                <div  class="comments text-muted"><input #replyText type="text"  class="replycomment" placeholder="reply" required >
+                                  <button type="submit" mat-raised-button color="primary">Reply</button></div>
+                              </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</div>

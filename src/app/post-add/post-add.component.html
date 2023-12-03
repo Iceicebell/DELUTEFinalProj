@@ -1,0 +1,33 @@
+
+<app-header></app-header>
+<main>
+    
+    <div class="container">
+        <div class="left">
+        <h3 class="font-weight-bold" *ngIf="editmode==false">Create Post</h3>
+        <h3 class="font-weight-bold" *ngIf="editmode==true">Edit Post</h3>
+<section id="contact">
+    <div class="content">
+        
+        <div id="form">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" id="contactForm" method="post">
+                <span>Upload Image</span>
+                <input type="text" name="name" class="imagePath" placeholder="Image Address" tabindex=1 formControlName="imgPath" />
+                
+                <span>Hashtag</span>
+                <input type="text" name="hashtag" class="hashtag" placeholder="Your Hashtag" tabindex=2 formControlName="title"/>
+
+                <span>Caption</span>
+                <textarea class="caption" placeholder="Enter your Caption" tabindex=4 formControlName="description"></textarea>
+
+                <input type="submit" name="submit" [disabled]="form.invalid" value="Post" class="submit" tabindex=5>
+                <input type="reset" name="submit" value="Clear" class="submit" tabindex=5>
+            </form>
+            
+        </div>
+        </div>
+</section>
+</div>
+
+</div>
+</main>
