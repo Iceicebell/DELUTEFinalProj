@@ -1,21 +1,20 @@
 
-<div class="feeds">
+<div class="feeds" *ngIf="user$ | async as user">
     <div class="feed">
         <div class="head">
             
         </div>
          <div class="user">
              <div class="profile-pic">
-                 <img src="https://media.macphun.com/img/uploads/customer/how-to/579/15531840725c93b5489d84e9.43781620.jpg?q=85&w=1340" alt="">
+                 <img src="{{post?.profilepic}}">
              </div>
              <div class="info">
                  <h3>{{post?.auth}}</h3>
                  <small>{{post?.date}}</small>
-                 <div>
+                 <div *ngIf="user.username === post?.auth">
                  <mat-icon (click)="deleteButton()">delete</mat-icon><mat-icon (click)="editButton()">edit</mat-icon>
                  </div>
              </div >
-             <SPAN class="edit"><i class="uil uil-ellipsis-h"></i></SPAN>
          </div>
 
          <div class="photo">
@@ -46,12 +45,12 @@
             <ul id="comments-list" class="comments-list">
                 <li>
                     <div class="comment-main-level">
-    
+                        <div class="comment-avatar"><img [src]="c.profilepic" alt=""></div>
                         <div class="comment-box">
                             <div class="comment-head">
-                                <h6 class="comment-name by-author"><a >{{post?.auth}}</a></h6>
+                                <h6 class="comment-name by-author"><a >{{c.commenter}}</a></h6>
                                 <mat-icon (click)="likeComment(c)">favorite</mat-icon><small>{{c.likes || 0}}</small>
-                                <mat-icon (click)="deleteComment(c)">delete</mat-icon>
+                                <mat-icon (click)="deleteComment(c)" *ngIf="user.username === c?.commenter">delete</mat-icon>
                                 <div class="comment-content">
                                     {{c.text}}
                                     
@@ -67,14 +66,14 @@
                                 <ul class="comments-list reply-list">
                                     <li>
                 
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                                        <div class="comment-avatar"><img [src]="reply.profilepic" alt=""></div>
                 
                                         <div class="comment-box">
                                             <div class="comment-head">
-                                                <h6 class="comment-name"><a href="#">{{post?.auth}}</a></h6>
+                                                <h6 class="comment-name"><a href="#">{{reply.username}}</a></h6>
                                             </div>
                                             <div class="reply-content">
-                                                {{reply}}
+                                                {{reply.reply}}
                                             </div>
                                         </div>
                                     </li>

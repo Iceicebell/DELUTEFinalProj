@@ -1,5 +1,5 @@
 
-<nav>
+<nav *ngIf="user$ | async as user">
     <div class="container">
         <a href="post-list" class="link"><h2 class="logo"><span class="semi-title">Vinci.</span>Space</h2></a>
         <div class="search-bar">
@@ -12,7 +12,7 @@
         <div class="create">
             <label class="btn btn-primary" for="create-post"><a class="create" href="post-add">Create</a></label>
             <div class="profile-pic">
-                <img src="https://media.macphun.com/img/uploads/customer/how-to/579/15531840725c93b5489d84e9.43781620.jpg?q=85&w=1340" alt="pic 1" />
+               <a href="profile"> <img [src]="user.photoUrl ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'" /></a>
             </div>
         </div>
     </div>

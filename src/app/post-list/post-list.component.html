@@ -1,29 +1,19 @@
 <app-header></app-header>
 <body>
-<main >
+<main *ngIf="user$ | async as user">
     <div class="container">
         <div class="left"  >
-            <div class="sidebar">
-              <a class="menu-item">
-                <span><mat-icon>home</mat-icon></span> <h3>Home</h3>
-              </a>
-              <a class="menu-item ">
-                <span><mat-icon>bookmark</mat-icon></span> <h3>Favorite</h3>
-              </a>
-              <a class="menu-item ">
-                <span><mat-icon>settings</mat-icon></span> <h3>Settings</h3>
-              </a>
-          </div>
+          <app-sidebar></app-sidebar>
         </div>
         
 
 
         <div class="middle">
-            <app-post *ngFor="let post of listofpost; let i = index;"
-            [post]="post" [index]="i"></app-post>
+          <app-post *ngFor="let post of listofpost; let i = index;" [post]="post" [index]="i"></app-post>
               </div>
 
         </div>
 
+        
 </main>
 </body>

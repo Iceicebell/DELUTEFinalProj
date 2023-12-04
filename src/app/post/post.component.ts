@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { BackEndService } from '../services/back-end.service';
 import { Post, PostComment } from '../post.model';
 import { PostService } from '../services/post.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { Observable } from 'rxjs';
+import { ProfileUser } from '../models/user.profile';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-post',
@@ -10,10 +14,16 @@ import { PostService } from '../services/post.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent {
+  user$: Observable<ProfileUser | null>;
   @Input() post?:Post;
   @Input()index:number = 0;
   newComment:string='';    
-  constructor(private postService:PostService, private router:Router, private backendservice:BackEndService) { }
+  constructor(private postService:PostService, 
+    private router:Router, 
+    private backendservice:BackEndService,
+    private authservice:AuthenticationService,
+    private userService:UserService) {
+      this.user$ = this.userService.currentUserProfile$; }
   
     ngOnInit(): void {
       console.log(this.post);
@@ -33,39 +43,64 @@ export class PostComponent {
     onLike(){
       if (this.post?.id) {
         this.postService.likePost(this.post.id);
-        this.backendservice.saveData();
+        this.backendservice.updatePost(this.post.id,this.post);
       }
     }
     onUnlike(){
       
       if (this.post?.id) {
         this.postService.unlikePost(this.post.id);
+        this.backendservice.updatePost(this.post.id,this.post);
       }
     }
     addComment(){
-      if(this.newComment){
-        this.post?.comment.push({likes:0,text: this.newComment, replies: []});
-        this.newComment='';
-        this.backendservice.saveData();
-      }
-      
+      this.user$.subscribe(user => {
+        if (user && this.newComment && this.post?.id) {
+          this.post?.comment.push({
+            likes: 0, 
+            text: this.newComment, 
+            replies: [], 
+            commenter: user.username || 'Anonymous',
+            profilepic: user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+          });
+          this.newComment='';
+          this.backendservice.updatePost(this.post.id, this.post);
+        }
+      });
     }
+
     replyToComment(comment: PostComment, reply: string) {
-      comment.replies.push(reply);
-      this.backendservice.saveData();
+      this.user$.subscribe(user => {
+        if (user) {
+          comment.replies.push({
+            username:  user.username|| 'Anonymous',
+            profilepic: user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            reply: reply
+          });
+          if (this.post?.id) {
+            this.backendservice.updatePost(this.post.id, this.post);
+          }
+        }
+      });
     }
+
+
     deleteComment(comment: PostComment) {
       const index = this.post?.comment.indexOf(comment);
   if (index !== undefined && index > -1) {
     this.post?.comment.splice(index, 1);
-    this.backendservice.saveData();
-      }
+    if (this.post?.id) {
+      this.backendservice.updatePost(this.post.id, this.post);
     }
+  }
+    }
+
     likeComment(comment: PostComment) {
       if (!comment.likes) {
         comment.likes = 0;
       }
       comment.likes++;
-      this.backendservice.saveData();
-    }
-    }
+      if (this.post?.id) {
+        this.backendservice.updatePost(this.post.id, this.post);
+      }
+    }}

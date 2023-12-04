@@ -1,6 +1,7 @@
 export class Post{
     public id?: string;
     constructor(
+        public profilepic:string,
         public title:string,
         public img:string,
         public auth:string,
@@ -12,7 +13,14 @@ export class Post{
     }
 }
 export interface PostComment {
+    profilepic:string;
     likes: any;
     text: string;
-    replies: any[];
+    replies: Reply[];
+    commenter:string;
 }
+export interface Reply {
+    username: string;
+    profilepic: string;
+    reply: string;
+  }

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cc105-3c163": {
+      "hosting": {
+        "vincispace": [
+          "cc105-3c163"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cc105-3c163"
+  }
+}

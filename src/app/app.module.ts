@@ -14,13 +14,26 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { ProfileComponent } from './profile/profile.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 @NgModule({
   declarations: [
     AppComponent,
     PostListComponent,
     PostAddComponent,
     PostComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegisterComponent,
+    LoginComponent,
+    ProfileComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +45,12 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    provideFirebaseApp(() => initializeApp({"projectId":"cc105-3c163","appId":"1:1078386886592:web:19cee78587edb5269c6a25","databaseURL":"https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"cc105-3c163.appspot.com","apiKey":"AIzaSyALb9FuwCB8Qir5uZjNjrp3cAI8ZScECtg","authDomain":"cc105-3c163.firebaseapp.com","messagingSenderId":"1078386886592","measurementId":"G-MG86NVX1JZ"})),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideDatabase(() => getDatabase()),
+    provideStorage(() => getStorage())
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -51,7 +51,7 @@ export class BackEndService {
     this.http.delete('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json')
     .subscribe();
   }
-  updateEmployee(id:string, value:Post){
+  updatePost(id:string, value:Post){
     this.http.put('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json', value)
     .subscribe();
   }

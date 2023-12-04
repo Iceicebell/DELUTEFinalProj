@@ -4,6 +4,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BackEndService } from '../services/back-end.service';
 import { Post } from '../post.model';
 import { PostService } from '../services/post.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { Observable } from 'rxjs';
+import { ProfileUser } from '../models/user.profile';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-post-add',
@@ -11,10 +15,19 @@ import { PostService } from '../services/post.service';
   styleUrls: ['./post-add.component.css']
 })
 export class PostAddComponent {
+  user$: Observable<ProfileUser | null>;
+  
   form!: FormGroup;
   id:string='';
   editmode= false;
-  constructor(private postService:PostService, private router: Router,private actroute:ActivatedRoute, private backendservice:BackEndService){}
+  constructor(private postService:PostService,
+     private router: Router,private actroute:ActivatedRoute,
+      private backendservice:BackEndService,
+       private authservice:AuthenticationService,
+       private userService:UserService
+    ){
+    this.user$ = this.userService.currentUserProfile$;
+  }
 
   ngOnInit():void{
     let title="";
@@ -43,21 +56,28 @@ export class PostAddComponent {
     });
   }
   onSubmit(){
-    const like=this.form.value.like;
-    const title= this.form.value.title;
-    const imgPath= this.form.value.imgPath;
-    const description= this.form.value.description;
-    const post: Post=new Post(title,imgPath,'icebell',description,new Date(),like);
-    if(this.editmode==true){
-      this.backendservice.updateEmployee(this.id,post);
-      alert("Post Edited");
-    }
-    else{
-      this.postService.addPost(post);
-      this.backendservice.saveData();
-      alert("Post Created");
-    }
-      this.router.navigate(['post-list'])
-  }
+    this.user$.subscribe(user => {
+      if (user) {
+        const like=this.form.value.like;
+        const title = this.form.value.title || '';
+        const imgPath = this.form.value.imgPath || '';
+        const description = this.form.value.description || '';
+        let profilepic = user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+        let auth = user.username || 'Anonymous';
+        const post: Post = new Post(profilepic, title, imgPath, auth, description, new Date(), like);
+        if(this.editmode==true){
+          this.backendservice.updatePost(this.id,post);
+          alert("Post Edited");
+        }
+        else{
+          this.postService.addPost(post);
+          this.backendservice.saveData();
+          alert("Post Created");
+        }
+        this.router.navigate(['post-list']);
+      }
+    });
   
-}
+}}
+  
+ 

@@ -6,7 +6,9 @@
     overflow: hidden;
     height: 2.7rem;
 }
-
+.info h3{
+  font-weight: bold;
+}
 img{
     display: block;
     width: 100%;
@@ -104,12 +106,12 @@ img{
        .reply-list:before, .reply-list:after {display: none;}
        .reply-list li:before {
         content: '';
-        width: 10px;
+        width: 88px;
         height: 2px;
         background: #572991;
         position: absolute;
         top: 25px;
-        left: -15px;
+        left: -88px;
        }
        
        
@@ -133,8 +135,8 @@ img{
         margin-top: 10px;
        }
        .comments-list .comment-avatar {
-        width: 65px;
-        height: 65px;
+        width: 50px;
+        height: 50px;
         position: relative;
         z-index: 99;
         float: left;
@@ -146,6 +148,7 @@ img{
         -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         overflow: hidden;
+        border-radius: 50px;
        }
        
        .comments-list .comment-avatar img {
@@ -167,7 +170,7 @@ img{
        }
        
        .comments-list .comment-box {
-        width: 500px;
+        width: 430px;
         float: right;
         position: relative;
         -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -195,7 +198,7 @@ img{
        }
        
        .reply-list .comment-box {
-        width: 400px;
+        width: 300px;
        }
        .comment-box .comment-head {
         background: #FCFCFC;
@@ -254,7 +257,7 @@ img{
        }
        .comment-box .reply-content {
         background: #FFF;
-        padding: 9px;
+        padding: 5px;
         font-size: 10px;
         color: #595959;
         -webkit-border-radius: 0 0 4px 4px;
