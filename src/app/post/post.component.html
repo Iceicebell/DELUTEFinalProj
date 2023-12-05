@@ -41,6 +41,11 @@
                     <button type="submit" mat-raised-button color="primary">Comment</button></div>
                 </div>
             </form>
+            <div class="show-comments" (click)="toggleComments()">
+                <label *ngIf="!showComments">Show Comments...</label>
+            <label *ngIf="showComments">Hide Comments...</label>
+        </div >
+        <div *ngIf="showComments">
             <div *ngFor="let c of post?.comment">
             <ul id="comments-list" class="comments-list">
                 <li>
@@ -89,6 +94,7 @@
                 </li>
             </ul>
         </div>
+    </div>
     </div>
     </div>
 </div>
