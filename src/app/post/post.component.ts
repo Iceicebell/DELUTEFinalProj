@@ -17,7 +17,8 @@ export class PostComponent {
   user$: Observable<ProfileUser | null>;
   @Input() post?:Post;
   @Input()index:number = 0;
-  newComment:string='';    
+  newComment:string='';  
+  showComments = false;  
   constructor(private postService:PostService, 
     private router:Router, 
     private backendservice:BackEndService,
@@ -28,6 +29,9 @@ export class PostComponent {
     ngOnInit(): void {
       console.log(this.post);
       console.log(this.index);
+    }
+    toggleComments() {
+      this.showComments = !this.showComments;
     }
     deleteButton(){
       if (this.post?.id) {

@@ -13,6 +13,10 @@ img{
     display: block;
     width: 100%;
 }
+.show-comments{
+  margin-top: 10px;
+  font-weight: 600;
+}
 .comment{
     padding: 4px;
     border-radius: 6px;
