@@ -26,7 +26,7 @@
             <span class="hash-tag"> #{{post?.title}}</span></p>
          </div>
             <mat-icon (click)="onLike()">favorite</mat-icon><small>{{post?.like}}</small>
-             <mat-icon>bookmark</mat-icon>
+             <mat-icon (click)="post && onBookmarkPost(post)">bookmark</mat-icon>
 
              <div *ngFor="let c of post?.comment"></div>
          

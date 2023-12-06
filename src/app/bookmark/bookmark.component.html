@@ -1,0 +1,48 @@
+
+
+<app-header></app-header>
+<main >
+
+    <div class="container">
+        <div class="left"  >
+             <app-sidebar></app-sidebar>
+          </div>
+
+
+<div class="middle" >
+    <div *ngFor="let bookmark of postData;">
+<div class="card">
+<div class="feeds">
+    <div class="feed">
+        <div class="head">
+            
+        </div>
+         <div class="user">
+             <div class="profile-pic">
+                 <img src="{{bookmark?.profilepic}}">
+             </div>
+             <div class="info">
+                 <h3>{{bookmark?.auth}}</h3>
+                 <small>{{bookmark?.date}}</small>
+             </div >
+         </div>
+
+         <div class="photo">
+             <img src="{{bookmark?.img}}" alt="">
+         </div>
+
+         <div class="caption">
+             <p><b></b>{{bookmark?.description}}
+            <span class="hash-tag"> #{{bookmark?.title}}</span></p>
+         </div>
+            <mat-icon >favorite</mat-icon><small>{{bookmark?.like}}</small>
+             <mat-icon (click)="onRemoveBookmarkPost(bookmark)">bookmark</mat-icon><small>x</small>
+         
+</div>
+    </div>
+
+</div>
+</div>
+</div>
+</div>    
+</main>
