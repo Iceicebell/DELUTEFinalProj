@@ -23,6 +23,7 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { ProfileComponent } from './profile/profile.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LoginComponent,
     ProfileComponent,
     SidebarComponent,
+    BookmarkComponent,
   ],
   imports: [
     BrowserModule,

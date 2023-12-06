@@ -107,4 +107,10 @@ export class PostComponent {
       if (this.post?.id) {
         this.backendservice.updatePost(this.post.id, this.post);
       }
-    }}
+    }
+    onBookmarkPost(post: Post) {
+      this.userService.addToBookmarks(post);
+      alert("Added to Favorites");
+    }
+    
+  }
