@@ -54,7 +54,7 @@
         display: inline-block;
         padding: 0.6rem 2rem;
         font-weight: 500;
-        border-radius: 1rem;
+        border-radius: .2rem;
         cursor: pointer;
         transition: all 300ms ease;
     }
@@ -82,12 +82,11 @@
         position: fixed;
         top: 0;
         z-index: 10;
-        background: hsl(252, 30%, 100%);
-        
+        background: hsl(252, 30%, 100%); 
     
     }
     .semi-title{
-        color: orange;
+        color:hsl(252, 75%, 60%);
     }    nav .container{
         display: flex;
         align-items: center;
@@ -99,11 +98,14 @@
         border-radius: 1rem;
         padding:  0.6rem 1rem;
     }
-    .search-bar input[type="search"]{
+    
+    .search-bar input{
         background: transparent;
         width: 30vw;
     }
-    
+    .search-bar input:focus{
+        outline: none;
+    }
     nav .search-bar input[type="search"]::placeholder{
         color: hsl(252, 15%, 65%);
     }

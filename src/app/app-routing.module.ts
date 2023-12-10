@@ -31,7 +31,7 @@ const routes: Routes = [{path:'', redirectTo: 'post-list', pathMatch:'full'},
 ...canActivate(redirectUnauthorizedToLogin),
 },
 
-{path: 'profile', component: ProfileComponent,
+{path: 'profile/:id', component: ProfileComponent,
 ...canActivate(redirectUnauthorizedToLogin),},
 
 
