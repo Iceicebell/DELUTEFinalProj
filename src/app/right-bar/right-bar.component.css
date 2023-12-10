@@ -1,0 +1,148 @@
+.btn{
+    display: inline-block;
+    padding: 0.6rem 2rem;
+    font-weight: 500;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    margin-left: 50px;
+}
+.profile-pic{
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    height: 2.7rem;
+}
+img{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.text-muted{
+    position: relative;
+    width: 30px;
+    font-weight: 600;
+}
+.btn:hover{
+    opacity: 0.8;
+}
+
+.btn-primary{
+    background: hsl(252, 75%, 60%);
+    color: white;
+}
+.user-name h2{
+    font-weight: 500;
+}
+.user-name h5{
+    font-weight: 400;
+}
+ .messages{
+    background: hsl(252, 30%, 100%);
+    border-radius: .2rem;
+    padding: 1rem;
+    
+}
+
+ .messages .heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+ .messages i{
+    font-size: 1.4rem;
+}
+
+ .messages .search-bar{
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+ .messages .category{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+ .messages .category h6{
+    width: 100%;
+    text-align: center;
+    border-bottom: 4px solid hsl(252, 30%, 90%);
+    padding-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+ .messages .category .active{
+    border-color: hsl(252, 30%, 17%);
+}
+
+ .messages .message-requests{
+    color: hsl(252, 75%, 60%);
+}
+
+ .message .profile-pic{
+    position: relative;
+    overflow: visible;
+}
+
+ .profile-pic img{
+    border-radius: 50%;
+}
+
+ .messages .message{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: start;
+}
+
+ .messages .message:last-child{
+    margin: 0;
+}
+
+ .messages .message p{
+    font-size: 0.8rem;
+}
+
+ .messages .message .profile-pic .active{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border: 3px solid hsl(252, 30%, 100%);
+    background: hsl(120, 95%, 60%);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    
+}
+
+
+ .friend-requests{
+    margin-top: 1rem;
+}
+
+ .friend-requests h4{
+    color: hsl(252, 15%, 65%);
+    margin: 1rem 0;
+}
+
+ .request{
+    background: hsl(252, 30%, 100%);
+    padding: 1rem;
+    border-radius: .2rem;
+    margin-bottom: 0.7rem;
+}
+
+ .request .info{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+ .request .action{
+    display: flex;
+    gap: 1rem;
+}

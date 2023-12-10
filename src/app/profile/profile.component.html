@@ -1,4 +1,5 @@
 <app-header></app-header>
+<body>
 <main *ngIf="user$ | async as user">
 
     <div class="container">
@@ -9,15 +10,21 @@
 <div class="middle">
 <div class="card">
     <div class="cover-photo">
-        <img [src]="user.photoUrl ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'" class="profile">
-        
-    </div>
-    <button class="edit-button" mat-mini-fab (click)="inputfield.click()">
+        <img *ngIf="editmode;" [src]="user?.photoUrl ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'" class="profile">
+        <img *ngIf="!editmode;" [src]="profileUser?.photoUrl ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'" class="profile">
+    </div >
+    <button  *ngIf="editmode;" class="edit-button" mat-mini-fab (click)="inputfield.click()">
         <mat-icon>edit</mat-icon>
     </button>
     <input #inputfield type="file" hidden (change)="uploadImage($event, user)">
-    <h3 class="profile-name">James Carson</h3>
-    <p class="about">{{user.bio}} </p>
+    <div *ngIf="editmode;">
+    <h3 class="profile-name">{{user.username}}</h3>
+    <p class="about" *ngIf="editmode;">{{user?.bio}} </p>
+    </div>
+    <div *ngIf="!editmode;">
+        <h3 class="profile-name">{{profileUser?.username}}</h3>
+        <p class="about">{{profileUser?.bio}} </p>
+        </div>
     <div class="icons">
         <mat-icon>linkedin</mat-icon>
         <mat-icon>facebook</mat-icon>
@@ -29,24 +36,34 @@
 
 
   
-<div class="right">
+<div class="right" *ngIf="editmode;">
     <div class="messages">
-      <div class="heading">
+      <div class="heading" >
           <h4>Edit Profile</h4>
           <span><i class="uil uil-edit"></i></span>
       </div>
-<form [formGroup]="profileForm" (ngSubmit)="saveProfile()"> 
-      <div  class="comments text-muted">
-        <label>Email</label>
-        <input type="text" class="edit" placeholder="" formControlName="email" required >
-        <label>Bio</label>
-        <input type="text" class="edit" placeholder="" formControlName="bio" required >
-        <label>Username</label>
-        <input type="text" class="edit" placeholder="" formControlName="username" required >
-        <button type="submit" mat-raised-button color="primary">Edit</button></div>
-    </form>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()"> 
+            <div  class="comments text-muted">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="email" required>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Bio</mat-label>
+                    <textarea matInput placeholder="Ex. It makes me feel..." placeholder="" formControlName="bio" required></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="username" required>
+                </mat-form-field>
+              <button type="submit" mat-raised-button color="primary">Edit</button></div>
+          </form>
+      </div>
     </div> 
 
 </div>
-</div>
+
 </main>
+</body>

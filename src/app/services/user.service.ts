@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Firestore, arrayRemove, arrayUnion, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, arrayRemove, arrayUnion, collection, doc, docData, getDoc, getDocs, getFirestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ProfileUser } from '../models/user.profile';
-import { Observable, from, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, from, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { Post } from '../post.model';
 import { getDatabase, onValue ,ref as dbRef} from '@angular/fire/database';
 import { BookmarkPost } from '../models/bookmark.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private currentUserSubject = new BehaviorSubject<ProfileUser | null>(null);
+  public yourObservable$ = this.currentUserSubject.asObservable();
   private postRef: any;
   private db = getDatabase();
-
-
-  constructor(private firestore: Firestore, private authService: AuthenticationService) {}
+  private dab = getFirestore();
+  constructor(private firestore: Firestore, private authService: AuthenticationService, private router:Router) {}
 
   get currentUserProfile$(): Observable<ProfileUser | null> {
     return this.authService.currentUser$.pipe(
@@ -37,7 +39,9 @@ export class UserService {
 
   updateUser(user: ProfileUser): Observable<void> {
     const ref = doc(this.firestore, 'users', user.uid);
+    this.currentUserSubject.next(user);
     return from(updateDoc(ref, { ...user }));
+
   }
   addToBookmarks(post: Post) {
     this.authService.currentUser$.subscribe(user => {
@@ -107,4 +111,33 @@ export class UserService {
       });
     });
   }
+  
+  followUser(currentUserId: string, userToFollowId: string): Promise<void> {
+    
+    const ref = doc(this.firestore, 'users', currentUserId);
+    alert('Account Followed');
+    return updateDoc(ref, { following: arrayUnion(userToFollowId) });   
+}
+getAllUsers() {
+  return from(getDocs(collection(this.dab, 'users')).then((snapshot) => {
+    return snapshot.docs.map(doc => doc.data());
+  }));
+}
+navigateToProfile(userId: string): void {
+  if (userId) {
+    this.router.navigate(['/profile', userId]);
+    console.log(userId)
+  }
+}
+async getUserById(userId: string): Promise<ProfileUser> {
+  const userRef = doc(this.firestore, 'users', userId);
+  const userSnap = await getDoc(userRef);
+
+  if (userSnap.exists()) {
+    return userSnap.data() as ProfileUser;
+  } else {
+    throw new Error('User not found');
+  }
+}
+
 }

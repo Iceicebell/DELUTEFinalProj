@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ProfileUser } from '../models/user.profile';
+import { ActivatedRoute } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -16,6 +17,9 @@ import { ProfileUser } from '../models/user.profile';
 })
 export class ProfileComponent {
   user$: Observable<ProfileUser | null>;
+  editmode:boolean=true;
+  id:string="";
+  profileUser: ProfileUser | null = null;
 
   profileForm = new FormGroup({
     uid: new FormControl(''),
@@ -26,7 +30,8 @@ export class ProfileComponent {
 
   constructor(private authservice:AuthenticationService, 
     private imageupload:ImageUploadService,
-    private userService:UserService){
+    private userService:UserService,
+    private actroute:ActivatedRoute){
       this.user$ = this.userService.currentUserProfile$;
     }
 
@@ -36,6 +41,23 @@ export class ProfileComponent {
     ).subscribe((user)=> {
       this.profileForm.patchValue({...user});
     })
+
+
+    this.actroute.params.subscribe(params => {
+      const profileId = params['id'];
+
+      this.authservice.currentUser$.subscribe(currentUser => {
+        if (currentUser && currentUser.uid !== profileId) {
+          this.userService.getUserById(profileId).then(profileUser => {
+            this.profileUser = profileUser;
+            this.editmode = false; // Assuming you want to disable edit mode for other users' profiles
+          });
+        } else {
+          // This is the current user's profile, handle accordingly
+          this.editmode = true;
+        }
+      });
+    });
   }
   uploadImage(event:any, user:ProfileUser){
     this.imageupload.uplaodImage(event.target.files[0], `images/profile/${user.uid}`).pipe(
@@ -67,4 +89,5 @@ saveProfile(){
       error: () => alert('There was an error in updating the profile')
     });
 }
+
 }

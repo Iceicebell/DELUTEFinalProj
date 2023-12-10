@@ -1,90 +1,92 @@
 
-    .handle p{
-        font-size: 13px;
-    }
-     .profile{
-        padding: 1rem;
-        background: hsl(252, 30%, 100%);
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        column-gap: 1rem;
-        width: 100%;
-        margin-bottom: 30px;
-    }
-    
-     .sidebar{
-        margin-top: 1 rem;
-        background: hsl(252, 30%, 100%);
-        border-radius: 1rem;
-    }
-    
-     .sidebar .menu-item{
-        display: flex;
-        align-items: center;
-        position: relative;
-        height: 4rem;
-        cursor: pointer;
-        transition: all 300ms ease;
-        text-decoration: none;
-        color: black;
-    }
-    
-     .sidebar .menu-item:hover{
-        background: hsl(252, 30%, 90%);
-    }
-    
-     .sidebar mat-icon{
-        font-size: 1.4rem;
-        color: hsl(252, 15%, 65%);
-        margin-left: 2rem;
-        position: relative;
-    }
-    
-     .sidebar h3{
-        margin-left: 1.5rem;
-        font-size: 1rem;
-    }
-    
-     .sidebar .active{
-        background: hsl(252, 30%, 90%);
-    
-    }
-    
-     .sidebar .active::before{
-        content: "";
-        display: block;
-        width: 0.5rem;
-        height: 100%;
-        position: absolute;
-        background: hsl(252, 75%, 60%);
-    }
-    
-     .sidebar .menu-item:first-child.active{
-        border-top-left-radius: 1rem;
-        overflow: hidden;
-    }
-     .sidebar .menu-item:last-child.active{
-        border-bottom-left-radius: 1rem;
-        overflow: hidden;
-    }
-    
-     .btn{
-        margin-top: 1rem;
-        width: 100%;
-        text-align: center;
-        padding: 1rem 0;
-    }
+.handle p{
+    font-size: 13px;
+}
 
-    @media screen and (max-width:1200px) {
-         .profile{
-           display: none; 
-        }
-        .sidebar h3{
-            display: none;
-        }
-         .btn{
-            display: none;
-        }
+ .profile{
+    padding: 1rem;
+    background: hsl(252, 30%, 100%);
+    border-radius: .3rem;
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.handle h4{
+    color:hsl(252, 75%, 60%);
+}
+ .sidebar{
+    margin-top: 1 rem;
+    background: hsl(252, 30%, 100%);
+    border-radius: .3rem;
+}
+
+ .sidebar .menu-item{
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 4rem;
+    cursor: pointer;
+    transition: all 300ms ease;
+    text-decoration: none;
+    color: black;
+}
+
+ .sidebar .menu-item:hover{
+    background: hsl(252, 30%, 90%);
+}
+
+ .sidebar mat-icon{
+    font-size: 1.4rem;
+    color: hsl(252, 15%, 65%);
+    margin-left: 2rem;
+    position: relative;
+}
+
+ .sidebar h3{
+    margin-left: 1.5rem;
+    font-size: 1rem;
+}
+
+ .sidebar .active{
+    background: hsl(252, 30%, 90%);
+
+}
+
+ .sidebar .active::before{
+    content: "";
+    display: block;
+    width: 0.5rem;
+    height: 100%;
+    position: absolute;
+    background: hsl(252, 75%, 60%);
+}
+
+ .sidebar .menu-item:first-child.active{
+    border-top-left-radius: 1rem;
+    overflow: hidden;
+}
+ .sidebar .menu-item:last-child.active{
+    border-bottom-left-radius: 1rem;
+    overflow: hidden;
+}
+
+ .btn{
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+@media screen and (max-width:1200px) {
+     .profile{
+       display: none; 
     }
-    
+    .sidebar h3{
+        display: none;
+    }
+     .btn{
+        display: none;
+    }
+}
