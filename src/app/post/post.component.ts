@@ -17,22 +17,23 @@ export class PostComponent {
   user$: Observable<ProfileUser | null>;
   @Input() post?:Post;
   @Input()index:number = 0;
-  newComment:string='';  
-  showComments = false;  
+  newComment:string='';
+  showComments = false;    
   constructor(private postService:PostService, 
     private router:Router, 
     private backendservice:BackEndService,
-    private authservice:AuthenticationService,
     private userService:UserService) {
       this.user$ = this.userService.currentUserProfile$; }
   
     ngOnInit(): void {
-      console.log(this.post);
-      console.log(this.index);
     }
+    
+
     toggleComments() {
       this.showComments = !this.showComments;
     }
+
+    
     deleteButton(){
       if (this.post?.id) {
         this.postService.deletePost(this.post.id);
@@ -112,5 +113,5 @@ export class PostComponent {
       this.userService.addToBookmarks(post);
       alert("Added to Favorites");
     }
-    
+   
   }

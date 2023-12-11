@@ -106,7 +106,12 @@
         top: 5.4rem;
     }
     
-    
+    .main .container .right{
+        height: max-content;
+        position: sticky;
+        top: -18rem;
+        bottom: 0;
+    }
    
     
     /* Media queries for responsive website */

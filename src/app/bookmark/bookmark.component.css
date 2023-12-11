@@ -1,21 +1,11 @@
-:root{
-    --border-radius: 2rem;
-    --card-border-radius: 1rem;
-    --btn-padding: 0.6rem 2rem;
-    --search-padding: 0.6rem 1rem;
-    --card-padding: 1rem;
-    --color-white: hsl(252, 30%, 100%);
-    --color-gray: hsl(252, 15%, 65%);
-    --color-light:hsl(252, 30%, 90%);
-    --color-dark: hsl(252, 30%, 17%);
-    --color-primary: hsl(252, 75%, 60%);
-    --color-success: hsl(120, 95%, 60%);
-    --color-danger: hsl(0, 95%, 65%);
-    --color-black: hsl(252, 30%, 10%);
-    --sticky-top-left: 5.4rem;
-    --sticky-top-right: -18rem;
-    }
-    
+
+.profile-pic{
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    height: 2.7rem;
+}
     
     *,*::before,*::after{
         margin: 0;
@@ -76,16 +66,6 @@
     
     .text-muted{
         color: hsl(252, 15%, 65%);
-    }
-    
-    .search-bar{
-        background: hsl(252, 30%, 90%);
-        border-radius: 1rem;
-        padding: 0.6rem 1rem;
-    }
-    .search-bar input[type="search"]{
-        background: transparent;
-        width: 30vw;
     }
     
     main{
@@ -155,3 +135,53 @@
             display: none;
         }
     }
+.info h3{
+  font-weight: bold;
+}
+img{
+    display: block;
+    width: 100%;
+}
+ .feeds .feed{
+    background: hsl(252, 30%, 100%);
+    border-radius: .3rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+ .feed .head{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+ .feed .user{
+    display: flex;
+    gap: 1rem;
+}
+
+ .feed .photo{
+    border-radius: .2rem;
+    overflow: hidden;
+    margin: 0.7rem 0;
+}
+ .feed .action-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 0.6rem;
+}
+mat-icon{
+    cursor: pointer;
+    color: #572991;
+}
+.hash-tag{
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.card{
+    margin-bottom: 20px;
+}

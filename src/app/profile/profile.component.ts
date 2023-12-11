@@ -89,5 +89,4 @@ saveProfile(){
       error: () => alert('There was an error in updating the profile')
     });
 }
-
 }
