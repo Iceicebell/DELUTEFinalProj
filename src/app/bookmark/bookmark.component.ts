@@ -13,9 +13,6 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./bookmark.component.css']
 })
 export class BookmarkComponent {
-
-
-
   @Input()index:number = 0;
   newComment:string='';
   showComments = false; 

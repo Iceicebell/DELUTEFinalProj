@@ -66,10 +66,20 @@ export class PostAddComponent {
         let auth = user.username || 'Anonymous';
         const post: Post = new Post(profilepic, title, imgPath, auth, description, new Date(), like);
         if(this.editmode==true){
-          this.backendservice.updatePost(this.id,post);
-          alert("Post Edited");
+          const existingPost = this.postService.getSpecPost(this.id);
+          if (existingPost) {
+            existingPost.title = title;
+            existingPost.img = imgPath;
+            existingPost.description = description;
+            existingPost.profilepic = profilepic;
+            existingPost.auth = auth;
+            this.backendservice.updatePost(this.id, existingPost);
+            alert("Post Edited");
+          }
         }
         else{
+          const like = this.form.value.like;
+          const post: Post = new Post(profilepic, title, imgPath, auth, description, new Date(), like);
           this.postService.addPost(post);
           this.backendservice.saveData();
           alert("Post Created");
@@ -78,6 +88,7 @@ export class PostAddComponent {
       }
     });
   
-}}
+}
+}
   
  

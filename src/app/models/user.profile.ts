@@ -4,4 +4,5 @@ export interface ProfileUser{
     bio?:string;
     username?:string;
     photoUrl?:string;
+    following?: string[];
 }

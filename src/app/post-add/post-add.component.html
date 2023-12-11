@@ -1,33 +1,22 @@
 
 <app-header></app-header>
-<main>
-    
-    <div class="container">
-        <div class="left">
-        <h3 class="font-weight-bold" *ngIf="editmode==false">Create Post</h3>
-        <h3 class="font-weight-bold" *ngIf="editmode==true">Edit Post</h3>
-<section id="contact">
-    <div class="content">
-        
-        <div id="form">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" id="contactForm" method="post">
-                <span>Upload Image</span>
-                <input type="text" name="name" class="imagePath" placeholder="Image Address" tabindex=1 formControlName="imgPath" />
-                
-                <span>Hashtag</span>
-                <input type="text" name="hashtag" class="hashtag" placeholder="Your Hashtag" tabindex=2 formControlName="title"/>
-
-                <span>Caption</span>
-                <textarea class="caption" placeholder="Enter your Caption" tabindex=4 formControlName="description"></textarea>
-
-                <input type="submit" name="submit" [disabled]="form.invalid" value="Post" class="submit" tabindex=5>
-                <input type="reset" name="submit" value="Clear" class="submit" tabindex=5>
-            </form>
-            
-        </div>
-        </div>
-</section>
-</div>
-
-</div>
-</main>
+<body>
+	<div class="container">
+		<div class="contact-box">
+			<div class="left">
+               <img src="{{form.value.imgPath}}">  
+            </div>
+			<div class="right">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <h2 *ngIf="editmode===false">Create Post</h2>
+				<h2 *ngIf="editmode===true">Edit</h2>
+				<input type="text" class="field" placeholder="Image Address"  formControlName="imgPath">
+				<input type="text" class="field" placeholder="Hashtag"  formControlName="title">
+				<textarea placeholder="Caption" class="field" formControlName="description"></textarea>
+				<button type="submit" class="btn" [disabled]="form.invalid" *ngIf="editmode===false">Create</button>
+                <button type="submit" class="btn" [disabled]="form.invalid" *ngIf="editmode===true">Edit</button>
+                </form>
+			</div>
+		</div>
+	</div>
+</body>

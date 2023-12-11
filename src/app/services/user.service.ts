@@ -12,12 +12,22 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<ProfileUser | null>(null);
-  public yourObservable$ = this.currentUserSubject.asObservable();
   private postRef: any;
   private db = getDatabase();
   private dab = getFirestore();
-  constructor(private firestore: Firestore, private authService: AuthenticationService, private router:Router) {}
+  private following: any;
+
+  constructor(private firestore: Firestore, private authService: AuthenticationService, private router:Router) {
+    this.authService.currentUser$.subscribe(async (user) => {
+      if (user) {
+        const ref = doc(this.firestore, 'users', user.uid);
+        const docSnap = await getDoc(ref);
+        if (docSnap.exists()) {
+          this.following = docSnap.data()['following'];
+        }
+      }
+    });
+  }
 
   get currentUserProfile$(): Observable<ProfileUser | null> {
     return this.authService.currentUser$.pipe(
@@ -39,10 +49,9 @@ export class UserService {
 
   updateUser(user: ProfileUser): Observable<void> {
     const ref = doc(this.firestore, 'users', user.uid);
-    this.currentUserSubject.next(user);
     return from(updateDoc(ref, { ...user }));
-
   }
+
   addToBookmarks(post: Post) {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
@@ -51,7 +60,6 @@ export class UserService {
       }
     });
   }
-
   async getBookmarkedPosts() {
     const bookmarkedPosts:BookmarkPost[] = [];
   
@@ -59,14 +67,11 @@ export class UserService {
     let user;
     this.authService.currentUser$.subscribe(async (currentUser) => {
       if (currentUser) {
-        // Get the bookmarked post ids from Firestore
         const docRef = doc(this.firestore, 'bookmarks', currentUser.uid);
         const docSnap = await getDoc(docRef);
     
         if (docSnap.exists()) {
           const bookmarkedPostIds = docSnap.data()['bookmarks'];
-    
-          // Get the corresponding posts from the Realtime Database
           const db = getDatabase();
           for (const postId of bookmarkedPostIds) {
             this.postRef = dbRef(db, 'posts/' + postId);
@@ -83,6 +88,7 @@ export class UserService {
   
     return bookmarkedPosts;
   }
+
   getPostData(postId: string): Observable<any> { // replace 'any' with the actual type if known
     this.postRef = dbRef(this.db, 'posts/' + postId);
     return new Observable((observer) => {
@@ -111,7 +117,6 @@ export class UserService {
       });
     });
   }
-  
   followUser(currentUserId: string, userToFollowId: string): Promise<void> {
     
     const ref = doc(this.firestore, 'users', currentUserId);
@@ -139,5 +144,4 @@ async getUserById(userId: string): Promise<ProfileUser> {
     throw new Error('User not found');
   }
 }
-
 }

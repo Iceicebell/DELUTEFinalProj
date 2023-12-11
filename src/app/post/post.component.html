@@ -10,7 +10,7 @@
              </div>
              <div class="info">
                  <h3>{{post?.auth}}</h3>
-                 <small>{{post?.date}}</small>
+                 <small>{{post?.date | date:'EEEE, d MMMM y, h:mm a'}}</small>
                  <div *ngIf="user.username === post?.auth">
                  <mat-icon (click)="deleteButton()">delete</mat-icon><mat-icon (click)="editButton()">edit</mat-icon>
                  </div>
@@ -45,7 +45,7 @@
                 <label *ngIf="!showComments">Show Comments...</label>
             <label *ngIf="showComments">Hide Comments...</label>
         </div >
-        <div *ngIf="showComments">
+            <div *ngIf="showComments">
             <div *ngFor="let c of post?.comment">
             <ul id="comments-list" class="comments-list">
                 <li>
@@ -95,6 +95,6 @@
             </ul>
         </div>
     </div>
-    </div>
+</div>
     </div>
 </div>

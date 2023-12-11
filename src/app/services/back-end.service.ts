@@ -31,7 +31,6 @@ export class BackEndService {
           return postArray;
         }),
         tap((listofpost: Post[]) => {
-          console.log(listofpost);
           listofpost.forEach(post => {
             if (!Array.isArray(post.comment)){
               post.comment = [];
@@ -51,6 +50,7 @@ export class BackEndService {
     this.http.delete('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json')
     .subscribe();
   }
+  
   updatePost(id:string, value:Post){
     this.http.put('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json', value)
     .subscribe();
