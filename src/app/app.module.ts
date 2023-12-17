@@ -27,6 +27,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { RightBarComponent } from './right-bar/right-bar.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { StoryDialogComponent } from './story-dialog/story-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +42,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     SidebarComponent,
     BookmarkComponent,
     RightBarComponent,
+    StoryDialogComponent,
 
   ],
   imports: [
@@ -56,6 +59,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
+    MatDialogModule,
     provideFirebaseApp(() => initializeApp({"projectId":"cc105-3c163","appId":"1:1078386886592:web:19cee78587edb5269c6a25","databaseURL":"https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"cc105-3c163.appspot.com","apiKey":"AIzaSyALb9FuwCB8Qir5uZjNjrp3cAI8ZScECtg","authDomain":"cc105-3c163.firebaseapp.com","messagingSenderId":"1078386886592","measurementId":"G-MG86NVX1JZ"})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

@@ -2,7 +2,7 @@
 <div class="feeds" *ngIf="user$ | async as user">
     <div class="feed">
         <div class="head">
-            
+
         </div>
          <div class="user">
              <div class="profile-pic">
@@ -25,15 +25,15 @@
              <p><b></b>{{post?.description}}
             <span class="hash-tag"> #{{post?.title}}</span></p>
          </div>
-            <mat-icon (click)="onLike()">favorite</mat-icon><small>{{post?.like}}</small>
+         <mat-icon [color]="hasUserLikedPost(user.uid) ? 'warn' : 'primary'" (click)="onLike(user.uid)">favorite</mat-icon ><small>{{post?.like}}</small>
              <mat-icon (click)="post && onBookmarkPost(post)">bookmark</mat-icon>
 
              <div *ngFor="let c of post?.comment"></div>
-         
-         
+
+
         <div class="comments-container">
             <h1>Comments</h1>
-            <form (submit)="addComment()">   
+            <form (submit)="addComment()">
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     </div>
@@ -58,21 +58,21 @@
                                 <mat-icon (click)="deleteComment(c)" *ngIf="user.username === c?.commenter">delete</mat-icon>
                                 <div class="comment-content">
                                     {{c.text}}
-                                    
+
                                  </div>
                             </div>
-                           
+
                             <div *ngFor="let c of post?.comment">
                               </div>
-                              
+
 
 
                               <div *ngFor="let reply of c.replies">
                                 <ul class="comments-list reply-list">
                                     <li>
-                
+
                                         <div class="comment-avatar"><img [src]="reply.profilepic" alt=""></div>
-                
+
                                         <div class="comment-box">
                                             <div class="comment-head">
                                                 <h6 class="comment-name"><a href="#">{{reply.username}}</a></h6>
@@ -84,7 +84,7 @@
                                     </li>
                                 </ul>
                               </div>
-                            
+
                               <form (submit)="replyToComment(c, replyText.value)">
                                 <div  class="comments text-muted"><input #replyText type="text"  class="replycomment" placeholder="reply" required >
                                   <button type="submit" mat-raised-button color="primary">Reply</button></div>

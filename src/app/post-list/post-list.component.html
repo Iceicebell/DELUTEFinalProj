@@ -5,13 +5,50 @@
         <div class="left"  >
           <app-sidebar></app-sidebar>
         </div>
-        
+
 
 
         <div class="middle">
+
+          <div class="stories">
+
+            <div class="story"
+     [ngStyle]="{
+        'background-image': currentUserStories && currentUserStories.length > 0 ? 'url(' + currentUserStories[0].url + ')' : 'url()',
+        'background-repeat': 'no-repeat',
+        'background-position': 'center center',
+        'background-size': 'cover'
+     }"
+     (click)="openStories(currentUserStories)">
+                <div class="profile-pic">
+                    <img src="{{user.photoUrl}}" alt="">
+                </div>
+                <button mat-mini-fab (click)="inputfield.click()">
+                  <mat-icon>add_circle_outline</mat-icon>
+                </button>
+                <p class="name"><input #inputfield type="file" hidden (change)="addStory($event)"></p>
+            </div>
+
+            <div *ngFor="let people of peoples"
+            [ngStyle]="{
+               'background-image': people.stories && people.stories.length > 0 ? 'url(' + people.stories[0].url + ')' : 'url()',
+               'background-repeat': 'no-repeat',
+               'background-position': 'center center',
+               'background-size': 'cover'
+            }"
+            (click)="openOtherStories(people)"
+            class="story">
+                <div class="profile-pic">
+                    <img src="{{ people.photoUrl }}" alt="">
+                </div>
+                <p class="name">{{ people.username }}</p>
+            </div>
+        </div>
+
+
           <app-post *ngFor="let post of listofpost; let i = index;" [post]="post" [index]="i"></app-post>
               </div>
-        
+
 
         <div class="right">
           <app-right-bar></app-right-bar>

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Stories</h1>
+<div mat-dialog-content>
+  <div >
+    <div *ngFor="let story of currentPageStories">
+      <img [src]="story.url" alt="Story image" >
+      <button *ngIf="story.userId === data.currentUserId" (click)="deleteStoryEvent.emit({storyId: story.id, userId: story.userId})"><mat-icon>delete</mat-icon></button>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="buttons">
+  <div >
+  <button class="next-page" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 0"><mat-icon>arrow_back</mat-icon></button>
+  <button class="recent" (click)="currentPage = currentPage + 1" [disabled]="currentPage >= data.stories.length / pageSize - 1"><mat-icon>arrow_forward</mat-icon></button>
+
+  <button mat-button mat-dialog-close class="cancel"><mat-icon>cancel</mat-icon></button>
+  </div>
+</div>

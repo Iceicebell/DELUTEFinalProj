@@ -3,7 +3,9 @@
 <div *ngIf="user$ | async as user">
 
 <div class="friend-requests">
-    <h4>Follow</h4>
+    <div class="follow">
+    <h4>Suggested For You</h4>
+    </div>
     <div *ngFor="let user of allUsers$ | async" >
     <div class="request">
         <div class="info">
@@ -20,5 +22,5 @@
         </div>
     </div>
 
-</div> 
+</div>
   </div>

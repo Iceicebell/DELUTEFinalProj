@@ -75,6 +75,7 @@ export class PostAddComponent {
             existingPost.auth = auth;
             this.backendservice.updatePost(this.id, existingPost);
             alert("Post Edited");
+
           }
         }
         else{

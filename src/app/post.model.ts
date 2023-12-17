@@ -9,6 +9,7 @@ export class Post{
         public date:Date,
         public like:number=0,
         public comment:PostComment[] = [],
+        public likedBy:string[] = [],
     ){
     }
 }

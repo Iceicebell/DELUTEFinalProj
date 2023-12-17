@@ -62,14 +62,14 @@ export class UserService {
   }
   async getBookmarkedPosts() {
     const bookmarkedPosts:BookmarkPost[] = [];
-  
+
     // Get the current user
     let user;
     this.authService.currentUser$.subscribe(async (currentUser) => {
       if (currentUser) {
         const docRef = doc(this.firestore, 'bookmarks', currentUser.uid);
         const docSnap = await getDoc(docRef);
-    
+
         if (docSnap.exists()) {
           const bookmarkedPostIds = docSnap.data()['bookmarks'];
           const db = getDatabase();
@@ -85,7 +85,7 @@ export class UserService {
         }
       }
     });
-  
+
     return bookmarkedPosts;
   }
 
@@ -118,14 +118,19 @@ export class UserService {
     });
   }
   followUser(currentUserId: string, userToFollowId: string): Promise<void> {
-    
+
     const ref = doc(this.firestore, 'users', currentUserId);
     alert('Account Followed');
-    return updateDoc(ref, { following: arrayUnion(userToFollowId) });   
+    return updateDoc(ref, { following: arrayUnion(userToFollowId) });
 }
 getAllUsers() {
   return from(getDocs(collection(this.dab, 'users')).then((snapshot) => {
-    return snapshot.docs.map(doc => doc.data());
+    return Promise.all(snapshot.docs.map(doc => {
+      const user = { uid: doc.id, photoUrl: doc.data()['photoUrl'], username: doc.data()['username'], email: doc.data()['email'], ...doc.data() };
+      return this.getStories(user.uid).then(stories => {
+        return { ...user, stories };
+      });
+    }));
   }));
 }
 navigateToProfile(userId: string): void {
@@ -144,4 +149,10 @@ async getUserById(userId: string): Promise<ProfileUser> {
     throw new Error('User not found');
   }
 }
+getStories(userId: string) {
+  return getDocs(collection(this.dab, 'users', userId, 'stories')).then(snapshot => {
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  });
+}
+
 }

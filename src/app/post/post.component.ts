@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackEndService } from '../services/back-end.service';
 import { Post, PostComment } from '../post.model';
@@ -18,22 +18,23 @@ export class PostComponent {
   @Input() post?:Post;
   @Input()index:number = 0;
   newComment:string='';
-  showComments = false;    
-  constructor(private postService:PostService, 
-    private router:Router, 
+  showComments = false;
+  constructor(private postService:PostService,
+    private router:Router,
     private backendservice:BackEndService,
-    private userService:UserService) {
+    private userService:UserService,
+    private cd: ChangeDetectorRef) {
       this.user$ = this.userService.currentUserProfile$; }
-  
+
     ngOnInit(): void {
     }
-    
+
 
     toggleComments() {
       this.showComments = !this.showComments;
     }
 
-    
+
     deleteButton(){
       if (this.post?.id) {
         this.postService.deletePost(this.post.id);
@@ -45,14 +46,23 @@ export class PostComponent {
         this.router.navigate(['/post-edit', this.post.id]);
       }
     }
-    onLike(){
+    onLike(userId: string){
+      console.log('onLike called with post.id:', this.post?.id, 'and userId:', userId);
       if (this.post?.id) {
-        this.postService.likePost(this.post.id);
-        this.backendservice.updatePost(this.post.id,this.post);
+        this.postService.likePost(this.post.id, userId);
+        console.log('Has user liked post:', this.postService.hasUserLikedPost(this.post.id, userId));
+        this.backendservice.updatePost(this.post.id, this.post); // Update the post in the database
+        this.cd.detectChanges();
       }
     }
+    hasUserLikedPost(userId:string): boolean {
+      if (this.post?.id) {
+        return this.postService.hasUserLikedPost(this.post.id,userId);
+      }
+      return false;
+    }
     onUnlike(){
-      
+
       if (this.post?.id) {
         this.postService.unlikePost(this.post.id);
         this.backendservice.updatePost(this.post.id,this.post);
@@ -62,9 +72,9 @@ export class PostComponent {
       this.user$.subscribe(user => {
         if (user && this.newComment && this.post?.id) {
           this.post?.comment.push({
-            likes: 0, 
-            text: this.newComment, 
-            replies: [], 
+            likes: 0,
+            text: this.newComment,
+            replies: [],
             commenter: user.username || 'Anonymous',
             profilepic: user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
           });
@@ -113,5 +123,5 @@ export class PostComponent {
       this.userService.addToBookmarks(post);
       alert("Added to Favorites");
     }
-   
+
   }
