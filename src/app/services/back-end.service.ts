@@ -45,14 +45,16 @@ export class BackEndService {
         })
       );
   }
-  
+
  deleteButton(id:string){
     this.http.delete('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json')
     .subscribe();
   }
-  
-  updatePost(id:string, value:Post){
-    this.http.put('https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/'+id+'.json', value)
-    .subscribe();
-  }
+
+  updatePost(id: string, post: Post): Promise<void> {
+  return this.http.put(`https://cc105-3c163-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${id}.json`, post)
+    .toPromise()
+    .then(() => console.log('Post updated successfully'))
+    .catch(error => console.error('Error updating post: ', error));
+}
 }

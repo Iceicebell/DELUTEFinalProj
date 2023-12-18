@@ -36,6 +36,7 @@ export class StoryService {
               const db = getFirestore();
               const storiesCollectionRef = collection(db, 'users', user.uid, 'stories');
               addDoc(storiesCollectionRef, { url: downloadURL, userId: user.uid });
+              alert('Story Added');
             }
           });
         });

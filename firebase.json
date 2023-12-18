@@ -1,9 +1,21 @@
 {
-  "hosting": [
-    {
-      "target": "vincispace",
-      "source": ".",
-      "frameworksBackend": {}
+  "hosting": {
+    "site": "icebellspace",
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "asia-east1"
     }
-  ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
 }

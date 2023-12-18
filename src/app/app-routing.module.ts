@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import {canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from '@angular/fire/auth-guard'
 import { ProfileComponent } from './profile/profile.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
+import { FollowingComponent } from './following/following.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['post-list']);
@@ -37,6 +38,10 @@ const routes: Routes = [{path:'', redirectTo: 'post-list', pathMatch:'full'},
 
 {path: 'bookmarks', component: BookmarkComponent,
 ...canActivate(redirectUnauthorizedToLogin),},
+
+{path: 'following', component: FollowingComponent,
+ ...canActivate(redirectUnauthorizedToLogin),
+ },
 ];
 
 @NgModule({

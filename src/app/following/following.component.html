@@ -1,0 +1,37 @@
+<app-header></app-header>
+<body>
+<main *ngIf="user$ | async as user">
+    <div class="container">
+        <div class="left"  >
+          <app-sidebar></app-sidebar>
+        </div>
+
+
+
+        <div class="middle">
+          <div class="friend-requests">
+            <div class="follow">
+            <h4>Following</h4>
+            </div>
+            <div *ngFor="let following of followingUsers$ | async" >
+            <div class="request">
+                <div class="info">
+                    <div class="profile-pic">
+                        <a (click)="viewProfile(following.uid)"><img src="{{following.photoUrl}}"></a>
+                    </div>
+                    <div class="user-name">
+                        <h2>{{ following.username }}</h2>
+                        <h5 class="text-muted">{{user.email}}</h5>
+                    </div>
+                </div>
+                <div class="action" >
+                        <button class="btn btn-primary" (click)="unfollowUser(following.uid)">Unfollow</button>
+                </div>
+            </div>
+
+          </div>
+          </div>
+              </div>
+      </div>
+</main>
+</body>

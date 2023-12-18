@@ -72,6 +72,7 @@ export class PostComponent {
       this.user$.subscribe(user => {
         if (user && this.newComment && this.post?.id) {
           this.post?.comment.push({
+            userId:user.uid,
             likes: 0,
             text: this.newComment,
             replies: [],
@@ -88,6 +89,7 @@ export class PostComponent {
       this.user$.subscribe(user => {
         if (user) {
           comment.replies.push({
+            userId:user.uid,
             username:  user.username|| 'Anonymous',
             profilepic: user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             reply: reply

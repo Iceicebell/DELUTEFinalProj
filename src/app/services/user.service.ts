@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Firestore, arrayRemove, arrayUnion, collection, doc, docData, getDoc, getDocs, getFirestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ProfileUser } from '../models/user.profile';
-import { BehaviorSubject, Observable, from, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, concatMap, from, map, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { Post } from '../post.model';
 import { getDatabase, onValue ,ref as dbRef} from '@angular/fire/database';
 import { BookmarkPost } from '../models/bookmark.model';
 import { Router } from '@angular/router';
+import { PostService } from './post.service';
+import { BackEndService } from './back-end.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,13 @@ export class UserService {
   private db = getDatabase();
   private dab = getFirestore();
   private following: any;
+  followingChanged = new Subject<void>();
 
-  constructor(private firestore: Firestore, private authService: AuthenticationService, private router:Router) {
+  constructor(private firestore: Firestore,
+    private authService: AuthenticationService,
+    private router:Router,
+    private postService:PostService,
+    private backendservice:BackEndService) {
     this.authService.currentUser$.subscribe(async (user) => {
       if (user) {
         const ref = doc(this.firestore, 'users', user.uid);
@@ -49,9 +56,95 @@ export class UserService {
 
   updateUser(user: ProfileUser): Observable<void> {
     const ref = doc(this.firestore, 'users', user.uid);
-    return from(updateDoc(ref, { ...user }));
+    const update$ = from(updateDoc(ref, { ...user }));
+
+    return update$.pipe(
+      concatMap(() => this.updateUserInPosts(user)),
+      concatMap(() => this.updateUserInComments(user)),
+      concatMap(() => this.updateUserInReplies(user))
+    );
   }
 
+  updateUserInPosts(user: ProfileUser): Observable<void> {
+    return this.backendservice.fetchData().pipe(
+      map(posts => {
+        const userPosts = posts.filter(post => post.userId === user.uid);
+
+        userPosts.forEach(post => {
+          post.profilepic = user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+
+          if (user.username) {
+            post.auth = user.username;
+          }
+
+          // Update the post in the database
+          if (post.id) {
+            this.backendservice.updatePost(post.id, post);
+            console.log(post.profilepic);
+          }
+        });
+      }),
+      map(() => {}) // This is to ensure the method returns Observable<void>
+    );
+  }
+
+  updateUserInComments(user: ProfileUser): Observable<void> {
+    console.log('updateUserInComments is called');
+    return this.backendservice.fetchData().pipe(
+      map(posts => {
+        console.log('posts:', posts);
+        posts.forEach(post => {
+          const userComments = post.comment.filter(comment => comment.userId === user.uid);
+          console.log('userComments:', userComments);
+          // Update the user data in each comment
+          userComments.forEach(comment => {
+            if(user.photoUrl){
+              console.log('Updating profilepic:', comment.profilepic);
+              comment.profilepic = user.photoUrl;
+            }
+            if(user.username){
+              console.log('Updating commenter:', comment.commenter);
+              comment.commenter = user.username;
+            }
+          });
+
+          // Update the post in the database
+          if (post.id) {
+            console.log('Updating post:', post.id);
+            this.backendservice.updatePost(post.id, post);
+          }
+        });
+      }),
+      map(() => {}) // This is to ensure the method returns Observable<void>
+    );
+  }
+updateUserInReplies(user: ProfileUser): Observable<void> {
+  return this.backendservice.fetchData().pipe(
+    map(posts => {
+      posts.forEach(post => {
+        post.comment.forEach(comment => {
+          const userReplies = comment.replies.filter(reply => reply.userId === user.uid);
+
+          // Update the user data in each reply
+          userReplies.forEach(reply => {
+            if(user.photoUrl){
+              reply.profilepic = user.photoUrl;
+            }
+            if(user.username){
+              reply.username = user.username;
+            }
+          });
+        });
+
+        // Update the post in the database
+        if (post.id) {
+          this.backendservice.updatePost(post.id, post);
+        }
+      });
+    }),
+    map(() => {}) // This is to ensure the method returns Observable<void>
+  );
+}
   addToBookmarks(post: Post) {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
@@ -117,12 +210,16 @@ export class UserService {
       });
     });
   }
-  followUser(currentUserId: string, userToFollowId: string): Promise<void> {
 
-    const ref = doc(this.firestore, 'users', currentUserId);
-    alert('Account Followed');
-    return updateDoc(ref, { following: arrayUnion(userToFollowId) });
-}
+  followUser(currentUserId: string, userToFollowId: string): Promise<void> {
+      const ref = doc(this.firestore, 'users', currentUserId);
+      alert('Account Followed');
+      return updateDoc(ref, { following: arrayUnion(userToFollowId) }).then(() => {
+        this.followingChanged.next();
+        location.reload();
+      });
+
+  }
 getAllUsers() {
   return from(getDocs(collection(this.dab, 'users')).then((snapshot) => {
     return Promise.all(snapshot.docs.map(doc => {
@@ -155,4 +252,15 @@ getStories(userId: string) {
   });
 }
 
+getUserData(userId: string): Observable<ProfileUser> {
+  const ref = doc(this.firestore, 'users', userId);
+  return docData(ref).pipe(
+    map(data => data as ProfileUser)
+  );
+}
+
+unfollowUser(currentUserId: string, userToUnfollowId: string): Promise<void> {
+  const ref = doc(this.firestore, 'users', currentUserId);
+  return updateDoc(ref, { following: arrayRemove(userToUnfollowId) });
+}
 }

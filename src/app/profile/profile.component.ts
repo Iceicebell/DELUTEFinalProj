@@ -28,7 +28,7 @@ export class ProfileComponent {
     bio: new FormControl(''),
   })
 
-  constructor(private authservice:AuthenticationService, 
+  constructor(private authservice:AuthenticationService,
     private imageupload:ImageUploadService,
     private userService:UserService,
     private actroute:ActivatedRoute){
@@ -61,14 +61,16 @@ export class ProfileComponent {
   }
   uploadImage(event:any, user:ProfileUser){
     this.imageupload.uplaodImage(event.target.files[0], `images/profile/${user.uid}`).pipe(
-      concatMap((photoURL)=> this.userService.updateUser({uid: user.uid, photoUrl: photoURL})
-      )
+      concatMap((photoURL)=> {
+        console.log('photoURL:', photoURL);
+        return this.userService.updateUser({uid: user.uid, photoUrl: photoURL});
+      })
     )
     .subscribe({
       next: () => alert('Image uploaded successfully'),
       error: () => alert('There was an error in uploading the image')
     });
-}
+  }
 
 
 saveProfile(){

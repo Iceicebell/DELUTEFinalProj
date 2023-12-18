@@ -6,7 +6,7 @@
         <div class="left"  >
              <app-sidebar></app-sidebar>
           </div>
-          
+
 <div class="middle">
 <div class="card">
     <div class="cover-photo">
@@ -35,14 +35,14 @@
 </div>
 
 
-  
+
 <div class="right" *ngIf="editmode;">
     <div class="messages">
       <div class="heading" >
           <h4>Edit Profile</h4>
           <span><i class="uil uil-edit"></i></span>
       </div>
-        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()"> 
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
             <div  class="comments text-muted">
                 <mat-form-field class="example-full-width">
                     <mat-label>Email</mat-label>
@@ -55,13 +55,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <mat-label>Email</mat-label>
+                    <mat-label>Username</mat-label>
                     <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="username" required>
                 </mat-form-field>
-              <button type="submit" mat-raised-button color="primary">Edit</button></div>
+              <button type="submit" mat-raised-button color="primary">Done Editing</button></div>
           </form>
       </div>
-    </div> 
+    </div>
 
 </div>
 

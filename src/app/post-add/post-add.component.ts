@@ -16,7 +16,7 @@ import { UserService } from '../services/user.service';
 })
 export class PostAddComponent {
   user$: Observable<ProfileUser | null>;
-  
+
   form!: FormGroup;
   id:string='';
   editmode= false;
@@ -64,7 +64,8 @@ export class PostAddComponent {
         const description = this.form.value.description || '';
         let profilepic = user.photoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
         let auth = user.username || 'Anonymous';
-        const post: Post = new Post(profilepic, title, imgPath, auth, description, new Date(), like);
+        let userId = user.uid;
+        const post: Post = new Post(userId,profilepic, title, imgPath, auth, description, new Date(), like);
         if(this.editmode==true){
           const existingPost = this.postService.getSpecPost(this.id);
           if (existingPost) {
@@ -80,7 +81,7 @@ export class PostAddComponent {
         }
         else{
           const like = this.form.value.like;
-          const post: Post = new Post(profilepic, title, imgPath, auth, description, new Date(), like);
+          const post: Post = new Post(userId, profilepic, title, imgPath, auth, description, new Date(), like);
           this.postService.addPost(post);
           this.backendservice.saveData();
           alert("Post Created");
@@ -88,8 +89,7 @@ export class PostAddComponent {
         this.router.navigate(['post-list']);
       }
     });
-  
+
 }
 }
-  
- 
+

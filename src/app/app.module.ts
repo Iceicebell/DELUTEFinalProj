@@ -29,6 +29,7 @@ import { RightBarComponent } from './right-bar/right-bar.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { StoryDialogComponent } from './story-dialog/story-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FollowingComponent } from './following/following.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BookmarkComponent,
     RightBarComponent,
     StoryDialogComponent,
+    FollowingComponent,
 
   ],
   imports: [

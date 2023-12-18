@@ -9,7 +9,9 @@ export class PostService {
   listChangeEvent: EventEmitter<Post[]>=new EventEmitter();
   listofpost:Post[]=[];
   getPost(){
-    return this.listofpost;
+    const posts = this.listofpost;
+    console.log('Posts:', posts);
+    return posts;
   }
   addPost(post:Post){
     this.listofpost.push(post);

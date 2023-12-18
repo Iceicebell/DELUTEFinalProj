@@ -11,7 +11,7 @@
              <div class="info">
                  <h3>{{post?.auth}}</h3>
                  <small>{{post?.date | date:'EEEE, d MMMM y, h:mm a'}}</small>
-                 <div *ngIf="user.username === post?.auth">
+                 <div *ngIf="user.uid === post?.userId">
                  <mat-icon (click)="deleteButton()">delete</mat-icon><mat-icon (click)="editButton()">edit</mat-icon>
                  </div>
              </div >
@@ -23,7 +23,7 @@
 
          <div class="caption">
              <p><b></b>{{post?.description}}
-            <span class="hash-tag"> #{{post?.title}}</span></p>
+            <span class="hash-tag"> {{post?.title}}</span></p>
          </div>
          <mat-icon [color]="hasUserLikedPost(user.uid) ? 'warn' : 'primary'" (click)="onLike(user.uid)">favorite</mat-icon ><small>{{post?.like}}</small>
              <mat-icon (click)="post && onBookmarkPost(post)">bookmark</mat-icon>
@@ -55,7 +55,7 @@
                             <div class="comment-head">
                                 <h6 class="comment-name by-author"><a >{{c.commenter}}</a></h6>
                                 <mat-icon (click)="likeComment(c)">favorite</mat-icon><small>{{c.likes || 0}}</small>
-                                <mat-icon (click)="deleteComment(c)" *ngIf="user.username === c?.commenter">delete</mat-icon>
+                                <mat-icon (click)="deleteComment(c)" *ngIf="user.uid === c?.userId">delete</mat-icon>
                                 <div class="comment-content">
                                     {{c.text}}
 

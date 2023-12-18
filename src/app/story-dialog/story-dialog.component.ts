@@ -19,6 +19,10 @@ export class StoryDialogComponent {
   ngOnInit(){
     console.log(this.data.stories);
   }
+  deleteStory(){
+    alert('Story Deleted, Please Reload the Page');
+
+  }
   get currentPageStories() {
     return this.data.stories.slice(this.currentPage * this.pageSize, (this.currentPage + 1) * this.pageSize);
   }

@@ -6,6 +6,12 @@ import { from, Observable, switchMap } from 'rxjs';
   providedIn: 'root'
 })
 export class ImageUploadService {
+  ref(filePath: string) {
+    throw new Error('Method not implemented.');
+  }
+  upload(filePath: string, file: any) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private storage:Storage) { }
 

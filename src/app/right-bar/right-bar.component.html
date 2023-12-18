@@ -7,7 +7,7 @@
     <h4>Suggested For You</h4>
     </div>
     <div *ngFor="let user of allUsers$ | async" >
-    <div class="request">
+    <div class="request" >
         <div class="info">
             <div class="profile-pic">
                 <a (click)="viewProfile(user['uid'])"><img src="{{user['photoUrl']}}"></a>

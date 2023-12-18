@@ -19,7 +19,7 @@ export class RightBarComponent {
         ngOnInit() {
         }
         user$= this.authservice.currentUser$;
-        
+
         followUser(userToFollowId: string) {
           this.user$.subscribe(user => {
             if (user) {
@@ -28,9 +28,9 @@ export class RightBarComponent {
               .catch(error => console.error('Error following user: ', error));}
           });
       }
-     
+
       allUsers$ = this.userService.getAllUsers().pipe(
-        switchMap(users => 
+        switchMap(users =>
           this.authservice.currentUser$.pipe(
             map(currentUser => currentUser ? users.filter(user => user['uid'] !== currentUser['uid']) : users)
           )
@@ -39,5 +39,5 @@ export class RightBarComponent {
             viewProfile(accountId:string):void{
               this.userService.navigateToProfile(accountId);
             }
-            
+
 }
